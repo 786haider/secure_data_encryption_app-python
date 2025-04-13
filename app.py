@@ -7,6 +7,9 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
+# Set page configuration
+st.set_page_config(page_title="Secure Data Encryption System of Haider", page_icon="🔒")
+
 # Initialize session state variables if they don't exist
 if 'stored_data' not in st.session_state:
     st.session_state.stored_data = {}
@@ -53,18 +56,21 @@ def decrypt_data(encrypted_text, passkey):
     except Exception:
         return None
 
-# Function to change page
-def change_page(new_page):
-    st.session_state.page = new_page
-    st.rerun()
-
 # Streamlit UI
-st.set_page_config(page_title="Secure Data Encryption System of Haider", page_icon="🔒")
+st.set_page_config(page_title="Secure Data Encryption System Of Haider" , page_icon="🔒")
 st.title("🔒 Secure Data Encryption System")
 
 # Navigation
 menu = ["Home", "Store Data", "Retrieve Data", "Login"]
-choice = st.sidebar.selectbox("Navigation", menu, index=menu.index(st.session_state.page))
+# Safely get index to prevent errors
+safe_index = 0
+try:
+    if st.session_state.page in menu:
+        safe_index = menu.index(st.session_state.page)
+except Exception:
+    safe_index = 0
+
+choice = st.sidebar.selectbox("Navigation", menu, index=safe_index)
 
 if choice != st.session_state.page:
     st.session_state.page = choice
@@ -163,6 +169,7 @@ elif choice == "Retrieve Data":
                     # Lock the system for 30 seconds
                     st.session_state.locked_until = time.time() + 30
                     st.session_state.page = "Login"
+                    # Use st.rerun() directly without the function
                     st.rerun()
         else:
             st.error("⚠️ Both encrypted data and passkey are required!")
@@ -183,8 +190,8 @@ elif choice == "Login":
             st.session_state.failed_attempts = 0
             st.session_state.locked_until = 0
             st.success("✅ Reauthorized successfully! Redirecting to Home...")
-            time.sleep(1)  # Short delay for user feedback
             st.session_state.page = "Home"
+            # Use st.rerun() directly
             st.rerun()
         else:
             st.error("❌ Incorrect password!")
