@@ -59,7 +59,8 @@ def decrypt_data(encrypted_text, passkey):
 st.title("🔒 Secure Data Encryption System")
 # Navigation
 menu = ["Home", "Store Data", "Retrieve Data", "Login"]
-choice = st.sidebar.selectbox("Navigation", menu, index=menu.index(st.session_state.page) if st.session_state.page in menu else 0)
+choice = st.sidebar.selectbox("Navigation", menu, index=menu.index(st.session_state.page) 
+if st.session_state.page in menu else 0)
 
 if choice != st.session_state.page:
     st.session_state.page = choice
