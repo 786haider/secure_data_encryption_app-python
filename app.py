@@ -154,28 +154,18 @@ elif choice == "Retrieve Data":
         else:
             st.error("⚠️ Both encrypted data and passkey are required!")
 
-elif choice == "Login" :
- if choice == "Signup":
+elif choice == "Login":
     st.subheader("🔑 Reauthorization Required")
     
     if st.session_state.locked_until > time.time():
         lock_time = int(st.session_state.locked_until - time.time())
         st.warning(f"🕒 System locked for {lock_time} more seconds due to too many failed attempts.")
-       
+    
     login_pass = st.text_input("Enter Master Password:", type="password")
-    if st.button("Signup"):
-        st.session_state.stored_data = {}
-        password = st.text_input("Create Master Password:", type="password")
-        confirm_password = st.text_input("Confirm Master Password:", type="password")
-        if password == confirm_password:
-            st.session_state.master_password = password
-            st.success("✅ Signup successful! Redirecting to Home...")
-            time.sleep(1)  # Short delay for user feedback
-            st.experimental_rerun()
-        else:
-          st.button("Login")
-        
-        if login_pass == password:
+
+    if st.button("Login"):
+       
+        if login_pass == "admin123":
             st.session_state.failed_attempts = 0
             st.session_state.locked_until = 0
             st.success("✅ Reauthorized successfully! Redirecting to Home...")
