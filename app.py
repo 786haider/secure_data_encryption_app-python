@@ -17,6 +17,9 @@ if 'failed_attempts' not in st.session_state:
 if 'locked_until' not in st.session_state:
     st.session_state.locked_until = 0
 
+if 'page' not in st.session_state:
+    st.session_state.page = "Home"
+
 # Salt for key derivation (in production this should be stored securely)
 SALT = b'secure_salt_value_for_key_derivation'
 
@@ -50,17 +53,26 @@ def decrypt_data(encrypted_text, passkey):
     except Exception:
         return None
 
+# Function to change page
+def change_page(new_page):
+    st.session_state.page = new_page
+    st.rerun()
+
 # Streamlit UI
 st.title("🔒 Secure Data Encryption System")
 
 # Navigation
 menu = ["Home", "Store Data", "Retrieve Data", "Login"]
-choice = st.sidebar.selectbox("Navigation", menu)
+choice = st.sidebar.selectbox("Navigation", menu, index=menu.index(st.session_state.page))
+
+if choice != st.session_state.page:
+    st.session_state.page = choice
 
 # Check if system is locked due to too many failed attempts
 current_time = time.time()
 if st.session_state.locked_until > current_time:
     st.error(f"🔒 System locked due to too many failed attempts. Try again in {int(st.session_state.locked_until - current_time)} seconds")
+    st.session_state.page = "Login"
     choice = "Login"
 
 if choice == "Home":
@@ -149,8 +161,8 @@ elif choice == "Retrieve Data":
                 else:
                     # Lock the system for 30 seconds
                     st.session_state.locked_until = time.time() + 30
-                    st.error("🔒 Too many failed attempts! Redirecting to Login Page.")
-                    st.experimental_rerun()
+                    st.session_state.page = "Login"
+                    st.rerun()
         else:
             st.error("⚠️ Both encrypted data and passkey are required!")
 
@@ -164,13 +176,15 @@ elif choice == "Login":
     login_pass = st.text_input("Enter Master Password:", type="password")
 
     if st.button("Login"):
-       
+        # In a real application, you'd use a more secure authentication method
+        # The master password "admin123" is just for demonstration
         if login_pass == "admin123":
             st.session_state.failed_attempts = 0
             st.session_state.locked_until = 0
             st.success("✅ Reauthorized successfully! Redirecting to Home...")
             time.sleep(1)  # Short delay for user feedback
-            st.experimental_rerun()
+            st.session_state.page = "Home"
+            st.rerun()
         else:
             st.error("❌ Incorrect password!")
 
