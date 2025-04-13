@@ -155,7 +155,7 @@ elif choice == "Retrieve Data":
             st.error("⚠️ Both encrypted data and passkey are required!")
 
 elif choice == "Login" :
-elif choice == "Signup":
+ if choice == "Signup":
     st.subheader("🔑 Reauthorization Required")
     
     if st.session_state.locked_until > time.time():
