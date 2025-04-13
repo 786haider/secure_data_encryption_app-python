@@ -59,7 +59,7 @@ def change_page(new_page):
     st.rerun()
 
 # Streamlit UI
-st.page_config(page_title="Secure Data Encryption System of Haider", page_icon="🔒")
+st.set_page_config(page_title="Secure Data Encryption System of Haider", page_icon="🔒")
 st.title("🔒 Secure Data Encryption System")
 
 # Navigation
