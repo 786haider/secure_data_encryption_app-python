@@ -1,4 +1,9 @@
 import streamlit as st
+
+# Set page configuration - THIS MUST BE THE FIRST STREAMLIT COMMAND
+st.set_page_config(page_title="Secure Data Encryption System Of Haider", page_icon="🔒")
+
+# Now import other libraries
 import hashlib
 import base64
 import json
@@ -6,9 +11,6 @@ import time
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-
-# Set page configuration
-st.set_page_config(page_title="Secure Data Encryption System of Haider", page_icon="🔒")
 
 # Initialize session state variables if they don't exist
 if 'stored_data' not in st.session_state:
@@ -57,7 +59,6 @@ def decrypt_data(encrypted_text, passkey):
         return None
 
 # Streamlit UI
-st.set_page_config(page_title="Secure Data Encryption System Of Haider" , page_icon="🔒")
 st.title("🔒 Secure Data Encryption System")
 
 # Navigation
