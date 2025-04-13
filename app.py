@@ -1,4 +1,9 @@
 import streamlit as st
+
+# Set page configuration BEFORE anything else
+st.set_page_config(page_title="Secure Data Encryption System", page_icon="🔒")
+
+# Now import everything else
 import hashlib
 import base64
 import time
@@ -6,8 +11,6 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-# Set page configuration
-st.set_page_config(page_title="Secure Data Encryption System", page_icon="🔒")
 
 # Initialize session state variables if they don't exist
 if 'stored_data' not in st.session_state:
