@@ -1,5 +1,5 @@
 # secure_data_encryption_app-python
-
+<p>
 Core Features Implemented
 
 Data Storage (In-Memory Dictionary)
@@ -70,3 +70,4 @@ All passkeys are hashed using SHA-256 before storage
 Data is encrypted using Fernet symmetric encryption
 The system enforces a three-attempt limit to prevent brute force attacks
 The master password provides an additional layer of security
+</p>
